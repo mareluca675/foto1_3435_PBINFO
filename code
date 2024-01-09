@@ -1,0 +1,102 @@
+#include <fstream>
+
+using namespace std;
+
+int n, m, i, j, c, mat[1001][1001], negre, negremax, lfulger, fulgere, lfulgermax;
+
+int main()
+{
+    ifstream cin("foto.in");
+    ofstream cout("foto.out");
+    
+    cin >> c;
+    
+    cin >> n >> m;
+    
+    for(i = 1; i <= n; i ++)
+    {
+        for(j = 1; j <= m; j ++)
+        {
+            cin >> mat[i][j];
+        }
+    }
+    
+    if(c == 1)
+    {
+        for(i = 1; i <= n; i ++)
+        {
+            for(j = 1; j <= m; j ++)
+            {
+                negre = 1;
+            
+                while(mat[i][j] == mat[i][j + 1] and j < m)
+                {
+                    negre ++;
+                    j ++;
+                }
+            
+                if(negre > negremax)
+                { 
+                    negremax = negre;
+                }
+            }
+        }
+        
+        cout << negremax;
+    }
+    else if(c == 2)
+    {
+        for(i = 1; i <= n; i ++)
+        {
+            for(j = 1; j <= m; j ++)
+            {
+                if(mat[i][j] == 1)
+                {
+                    mat[i][j] = 0;
+                    
+                    fulgere ++;
+                    
+                    int p = i;
+                    int q = j;
+                    
+                    lfulger = 1;
+                    
+                    while(mat[i + 1][j + 1] == 1 or mat[i + 1][j] == 1 or mat[i + 1][j - 1])
+                    {
+                        lfulger ++;
+                        
+                        if(mat[i + 1][j + 1] == 1)
+                        {
+                            i ++;
+                            j ++;
+                            mat[i][j] = 0;
+                        }
+                        else if(mat[i + 1][j] == 1)
+                        {
+                            i ++;
+                            mat[i][j] = 0;
+                        }
+                        else if(mat[i + 1][j - 1] == 1)
+                        {
+                            i ++;
+                            j --;
+                            mat[i][j] = 0;
+                        }
+                    }
+                    
+                    if(lfulger > lfulgermax)
+                    {
+                        lfulgermax = lfulger;
+                    }
+                    
+                    i = p;
+                    j = q + 1;
+                }
+            }
+        }
+        
+        cout << fulgere << " " << lfulgermax;
+    }
+
+    return 0;
+}
